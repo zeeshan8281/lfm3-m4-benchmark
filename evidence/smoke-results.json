@@ -1,0 +1,38 @@
+{
+  "runtime": "mlx-vlm==0.7.12",
+  "python": "/Users/zeeshan/lfm3-m4-benchmark/runtime/venv/bin/python",
+  "model": "/Users/zeeshan/lfm3-m4-benchmark/model",
+  "offline": true,
+  "runs": [
+    {
+      "prompt": "Reply with exactly READY and nothing else.",
+      "args": [
+        "--max-tokens",
+        "16",
+        "--temperature",
+        "0",
+        "--thinking-mode",
+        "disabled"
+      ],
+      "exit_code": 0,
+      "output": "READY\n",
+      "expected": "READY",
+      "passed": true
+    },
+    {
+      "prompt": "What is the capital of Australia? Reply with only the city name.",
+      "args": [
+        "--max-tokens",
+        "16",
+        "--temperature",
+        "0",
+        "--thinking-mode",
+        "disabled"
+      ],
+      "exit_code": 0,
+      "output": "Sydney.</think>Sydney.\n",
+      "expected": "Canberra",
+      "passed": false
+    }
+  ]
+}

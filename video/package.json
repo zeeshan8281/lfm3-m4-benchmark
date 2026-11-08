@@ -1,0 +1,14 @@
+{
+  "name": "lfm3-m4-bento",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "remotion render index.jsx LFM3Bento lfm3-bento-v3.mp4 --concurrency=2"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.535",
+    "remotion": "4.0.535",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  }
+}

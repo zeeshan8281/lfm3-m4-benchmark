@@ -1,0 +1,18 @@
+{
+  "captured_at": "2026-11-08T07:12:06.370073+00:00",
+  "battery": {
+    "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=22020195)\t25%; discharging; 15:30 remaining present: true\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  "thermal": {
+    "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+    "stderr": "",
+    "returncode": 0
+  },
+  "disk": {
+    "stdout": "Filesystem   1024-blocks      Used Available Capacity iused    ifree %iused  Mounted on\n/dev/disk3s5   239362496 202262328   2965612    99% 2714925 29656120    8%   /System/Volumes/Data\n",
+    "stderr": "",
+    "returncode": 0
+  }
+}

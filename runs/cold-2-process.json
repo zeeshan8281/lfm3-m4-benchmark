@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/zeeshan/lfm3-m4-benchmark/runtime/venv/bin/python",
+    "/Users/zeeshan/lfm3-m4-benchmark/harness.py",
+    "--mode",
+    "cold",
+    "--output",
+    "/Users/zeeshan/lfm3-m4-benchmark/runs/cold-2.jsonl"
+  ],
+  "returncode": 0,
+  "process_wall_seconds": 1.4148032909999984
+}

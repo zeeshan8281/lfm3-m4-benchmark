@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "raw_runs_checked": 15,
+  "decode_intervals_checked": 63,
+  "trace_token_times": 64,
+  "line_charts": 5,
+  "smoothed_data": false,
+  "brand_removed": true,
+  "live_inference": false
+}

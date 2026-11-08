@@ -1,0 +1,51 @@
+{
+  "summary_matches_raw": true,
+  "summary_statistics_checked": 36,
+  "passed": true,
+  "warmups": 3,
+  "measured": 15,
+  "functional": 8,
+  "cold_processes": 3,
+  "functional_passes": 4,
+  "summary_recomputed": [
+    {
+      "input_tokens": 128,
+      "ttft_ms": 190.70662499871105,
+      "decode_tokens_per_second": 76.05724863884653,
+      "engine_ms": 1019.9292919132859,
+      "peak_active_bytes": 1176908478
+    },
+    {
+      "input_tokens": 512,
+      "ttft_ms": 745.466582942754,
+      "decode_tokens_per_second": 76.56640973939278,
+      "engine_ms": 1573.0425840010867,
+      "peak_active_bytes": 1489647802
+    },
+    {
+      "input_tokens": 2048,
+      "ttft_ms": 3086.8939589709044,
+      "decode_tokens_per_second": 73.99178485532144,
+      "engine_ms": 3931.336082983762,
+      "peak_active_bytes": 2240419124
+    }
+  ],
+  "cold": [
+    {
+      "load_ms": 1335.1303330855444,
+      "ttft_ms": 84.59241699893028,
+      "passed": true
+    },
+    {
+      "load_ms": 514.6526669850573,
+      "ttft_ms": 73.04254092741758,
+      "passed": true
+    },
+    {
+      "load_ms": 487.9102089907974,
+      "ttft_ms": 62.13387497700751,
+      "passed": true
+    }
+  ],
+  "limits": "Source/raw audit only; no inference run by reviewer. GPU configuration and synchronous evaluated outputs observed; not a per-kernel profiler audit."
+}

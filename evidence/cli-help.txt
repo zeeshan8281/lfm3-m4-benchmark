@@ -1,0 +1,284 @@
+usage: __main__.py [-h] [--model MODEL]
+                   [--output-modality {text,image,video,audio,3d}]
+                   [--output OUTPUT] [--ref-audio REF_AUDIO]
+                   [--task {generate,edit}] [--size SIZE] [--steps STEPS]
+                   [--seed SEED] [--workflow {t2va,fl2va,ref2va}]
+                   [--num-frames NUM_FRAMES] [--last-image LAST_IMAGE]
+                   [--reference KIND=PATH] [--guidance GUIDANCE]
+                   [--prompt-expansion-model PROMPT_EXPANSION_MODEL]
+                   [--adapter-path ADAPTER_PATH] [--image IMAGE [IMAGE ...]]
+                   [--audio AUDIO [AUDIO ...]] [--video VIDEO [VIDEO ...]]
+                   [--fps FPS] [--video-num-frames VIDEO_NUM_FRAMES]
+                   [--video-min-frames VIDEO_MIN_FRAMES]
+                   [--video-max-frames VIDEO_MAX_FRAMES]
+                   [--resize-shape RESIZE_SHAPE [RESIZE_SHAPE ...]]
+                   [--prompt PROMPT [PROMPT ...]] [--system SYSTEM]
+                   [--max-tokens MAX_TOKENS]
+                   [--max-denoising-steps MAX_DENOISING_STEPS]
+                   [--block-length BLOCK_LENGTH]
+                   [--num-to-transfer NUM_TO_TRANSFER]
+                   [--max-transfer-per-step MAX_TRANSFER_PER_STEP]
+                   [--editing-threshold EDITING_THRESHOLD]
+                   [--max-post-steps MAX_POST_STEPS]
+                   [--stability-steps STABILITY_STEPS]
+                   [--diffusion-full-canvas]
+                   [--diffusion-min-canvas-length DIFFUSION_MIN_CANVAS_LENGTH]
+                   [--diffusion-max-canvas-length DIFFUSION_MAX_CANVAS_LENGTH]
+                   [--diffusion-sampler {entropy-bound,confidence-threshold}]
+                   [--threshold THRESHOLD] [--min-threshold MIN_THRESHOLD]
+                   [--temperature TEMPERATURE] [--top-p TOP_P] [--top-k TOP_K]
+                   [--min-p MIN_P] [--repetition-penalty REPETITION_PENALTY]
+                   [--repetition-context-size REPETITION_CONTEXT_SIZE]
+                   [--presence-penalty PRESENCE_PENALTY]
+                   [--presence-context-size PRESENCE_CONTEXT_SIZE]
+                   [--frequency-penalty FREQUENCY_PENALTY]
+                   [--frequency-context-size FREQUENCY_CONTEXT_SIZE] [--chat]
+                   [--verbose | --no-verbose]
+                   [--eos-tokens EOS_TOKENS [EOS_TOKENS ...]]
+                   [--max-kv-size MAX_KV_SIZE] [--kv-bits KV_BITS]
+                   [--kv-key-bits KV_KEY_BITS] [--kv-value-bits KV_VALUE_BITS]
+                   [--kv-key-scheme {uniform,turboquant}]
+                   [--kv-value-scheme {uniform,turboquant}]
+                   [--kv-quant-scheme {uniform,turboquant}]
+                   [--kv-group-size KV_GROUP_SIZE]
+                   [--quantized-kv-start QUANTIZED_KV_START]
+                   [--skip-special-tokens] [--force-download]
+                   [--revision REVISION] [--trust-remote-code]
+                   [--quantize-activations]
+                   [--expert-cache-gb EXPERT_CACHE_GB]
+                   [--processor-kwargs PROCESSOR_KWARGS]
+                   [--gen-kwargs GEN_KWARGS]
+                   [--prefill-step-size PREFILL_STEP_SIZE]
+                   [--draft-model DRAFT_MODEL]
+                   [--draft-kind {dflash,eagle3,mtp}]
+                   [--draft-block-size DRAFT_BLOCK_SIZE] [--enable-thinking]
+                   [--thinking-mode {enabled,disabled,adaptive}]
+                   [--reasoning-effort REASONING_EFFORT]
+                   [--thinking-budget THINKING_BUDGET]
+                   [--thinking-start-token THINKING_START_TOKEN]
+                   [--thinking-end-token THINKING_END_TOKEN]
+
+Generate text, images, video, audio, or 3D with a supported model.
+
+options:
+  -h, --help            show this help message and exit
+  --model MODEL         The path to the local model directory or Hugging Face
+                        repo.
+  --output-modality {text,image,video,audio,3d}
+                        Generate text with a VLM, an image with a supported
+                        image model, a video, speech with an omni model, or 3D
+                        Gaussian splats from an image.
+  --output OUTPUT       Output path for image, video, audio (.wav), or 3D
+                        (.ply) generation.
+  --ref-audio REF_AUDIO
+                        Reference voice audio for --output-modality audio.
+  --task {generate,edit}
+                        Image task to run when --output-modality image is
+                        selected.
+  --size SIZE           Output size as WIDTHxHEIGHT. Image generation defaults
+                        to 512x512; image editing defaults to the first
+                        reference image size, and video uses the model default
+                        when omitted.
+  --steps STEPS         Number of inference steps. Uses the model default for
+                        images and 3D and 30 for videos when omitted.
+  --seed SEED           PRNG seed for reproducible sampling and diffusion
+                        canvas init. Image and video generation default to a
+                        random 32-bit seed.
+  --workflow {t2va,fl2va,ref2va}
+                        Video-generation workflow. Inferred from
+                        --image/--last-image or --reference when omitted.
+  --num-frames NUM_FRAMES
+                        Requested number of generated video frames.
+  --last-image LAST_IMAGE
+                        Last-frame conditioning image for FL2VA video
+                        generation.
+  --reference KIND=PATH
+                        Ordered Ref2VA reference; KIND is image, video, or
+                        audio. Repeat the argument to preserve semantic
+                        reference order.
+  --guidance GUIDANCE   Classifier-free guidance for image generation/editing
+                        or 3D generation.
+  --prompt-expansion-model PROMPT_EXPANSION_MODEL
+                        Prompt expansion model path or Hugging Face repo.
+                        Overrides the Flux3 upsampler, or enables Ideogram 4
+                        JSON caption expansion.
+  --adapter-path ADAPTER_PATH
+                        The path to the adapter weights.
+  --image IMAGE [IMAGE ...]
+                        URL or path of the image to process.
+  --audio AUDIO [AUDIO ...]
+                        URL or path of the audio to process.
+  --video VIDEO [VIDEO ...]
+                        URL or path of the video to process.
+  --fps FPS             Frames-per-second to sample from --video.
+  --video-num-frames VIDEO_NUM_FRAMES
+                        Exact number of frames to sample from --video,
+                        overriding --fps.
+  --video-min-frames VIDEO_MIN_FRAMES
+                        Lower bound on the frames sampled from --video.
+  --video-max-frames VIDEO_MAX_FRAMES
+                        Upper bound on the frames taken from --video. Falls
+                        back to 16 for processors without native video
+                        support, which are sent evenly re-sampled stills
+                        instead.
+  --resize-shape RESIZE_SHAPE [RESIZE_SHAPE ...]
+                        Resize shape for the image.
+  --prompt PROMPT [PROMPT ...]
+                        Message to be processed by the model.
+  --system SYSTEM       System message for the model.
+  --max-tokens MAX_TOKENS
+                        Maximum number of tokens to generate.
+  --max-denoising-steps MAX_DENOISING_STEPS
+                        Maximum denoising steps for diffusion generation.
+                        Default: the checkpoint's generation config (typically
+                        48). Adaptive stopping usually converges canvases
+                        earlier; set lower to hard-cap throughput.
+  --block-length BLOCK_LENGTH
+                        Block length for diffusion text generation.
+  --num-to-transfer NUM_TO_TRANSFER
+                        Target number of masked tokens to transfer per
+                        diffusion denoising step.
+  --max-transfer-per-step MAX_TRANSFER_PER_STEP
+                        Maximum confident masked tokens to transfer per
+                        denoising step.
+  --editing-threshold EDITING_THRESHOLD
+                        Confidence threshold for diffusion post-fill token
+                        edits.
+  --max-post-steps MAX_POST_STEPS
+                        Maximum diffusion post-fill editing steps per block.
+  --stability-steps STABILITY_STEPS
+                        Stop post-fill refinement after this many stable no-
+                        edit steps.
+  --diffusion-full-canvas
+                        Use the checkpoint canvas length for diffusion
+                        generation even when --max-tokens requests a partial
+                        block.
+  --diffusion-min-canvas-length DIFFUSION_MIN_CANVAS_LENGTH
+                        Minimum active canvas length for diffusion partial
+                        blocks. Default: 64.
+  --diffusion-max-canvas-length DIFFUSION_MAX_CANVAS_LENGTH
+                        Maximum active canvas length for diffusion generation.
+                        Default: the checkpoint canvas length; set lower to
+                        trade quality for throughput.
+  --diffusion-sampler {entropy-bound,confidence-threshold}
+                        Canvas update sampler for diffusion generation. Use
+                        entropy-bound for reference-style denoising;
+                        confidence-threshold is faster for quantized block-
+                        diffusion checkpoints.
+  --threshold THRESHOLD
+                        Token probability threshold for diffusion confidence
+                        transfer. Default: 0.9 for confidence-threshold
+                        sampling; masked-diffusion models use their checkpoint
+                        reference defaults.
+  --min-threshold MIN_THRESHOLD
+                        Lowest token probability threshold for masked
+                        diffusion transfer.
+  --temperature TEMPERATURE
+                        Temperature for sampling. Defaults to the checkpoint
+                        setting, or 0.0 if unset. Zero is greedy; positive
+                        values below 0.01 are clamped to 0.01.
+  --top-p TOP_P         Nucleus sampling: keep the smallest set of tokens
+                        whose probabilities sum to this. 1.0 disables it.
+                        Defaults to the checkpoint setting, or 1.0 if unset.
+  --top-k TOP_K         Keep only the k most probable tokens. 0 disables it.
+                        Defaults to the checkpoint setting, or 0 if unset.
+  --min-p MIN_P         Drop tokens whose probability is below this fraction
+                        of the most probable token's. 0 disables it.
+  --repetition-penalty REPETITION_PENALTY
+                        Penalty factor for previously generated tokens.
+  --repetition-context-size REPETITION_CONTEXT_SIZE
+                        Number of recent generated tokens used for repetition
+                        penalty.
+  --presence-penalty PRESENCE_PENALTY
+                        Additive penalty for tokens that already appeared.
+  --presence-context-size PRESENCE_CONTEXT_SIZE
+                        Number of recent generated tokens used for presence
+                        penalty.
+  --frequency-penalty FREQUENCY_PENALTY
+                        Additive penalty scaled by token frequency.
+  --frequency-context-size FREQUENCY_CONTEXT_SIZE
+                        Number of recent generated tokens used for frequency
+                        penalty.
+  --chat                Chat in multi-turn style.
+  --verbose, --no-verbose
+                        Enable detailed output and progress bars. By default
+                        only the final result is printed.
+  --eos-tokens EOS_TOKENS [EOS_TOKENS ...]
+                        EOS tokens to add to the tokenizer.
+  --max-kv-size MAX_KV_SIZE
+                        Maximum KV size for the prompt cache.
+  --kv-bits KV_BITS     Number of bits to quantize the KV cache to.
+  --kv-key-bits KV_KEY_BITS
+                        Override the TurboQuant key bit-width (defaults to
+                        floor(--kv-bits)).
+  --kv-value-bits KV_VALUE_BITS
+                        Override the TurboQuant value bit-width (defaults to
+                        ceil(--kv-bits)).
+  --kv-key-scheme {uniform,turboquant}
+                        Override the KV quantization backend for keys only.
+  --kv-value-scheme {uniform,turboquant}
+                        Override the KV quantization backend for values only.
+  --kv-quant-scheme {uniform,turboquant}
+                        KV cache quantization backend. Fractional --kv-bits
+                        values use TurboQuant automatically.
+  --kv-group-size KV_GROUP_SIZE
+                        Group size for uniform KV cache quantization.
+  --quantized-kv-start QUANTIZED_KV_START
+                        Start index for the quantized KV cache.
+  --skip-special-tokens
+                        Skip special tokens in the detokenizer.
+  --force-download      Force download the model from Hugging Face.
+  --revision REVISION   The specific model version to use (branch, tag,
+                        commit).
+  --trust-remote-code   Trust remote code when loading the model.
+  --quantize-activations, -qa
+                        Enable activation quantization for QQLinear layers.
+                        Only supported for models quantized with 'nvfp4' or
+                        'mxfp8' modes.
+  --expert-cache-gb EXPERT_CACHE_GB
+                        For an mlx_vlm.moe_offload checkpoint, bound the
+                        resident routed-expert set to this many GB (default:
+                        70% of the GPU's recommended working set). Ignored for
+                        a normal, non-offloaded checkpoint.
+  --processor-kwargs PROCESSOR_KWARGS
+                        Extra processor kwargs as JSON. Example: --processor-
+                        kwargs '{"cropping": false, "max_patches": 3}'
+  --gen-kwargs GEN_KWARGS
+                        Extra generation kwargs as JSON. Example: --gen-kwargs
+                        '{"custom_arg": true}'
+  --prefill-step-size PREFILL_STEP_SIZE
+                        Number of tokens to process per prefill step. Lower
+                        values reduce peak memory usage but may be slower. Try
+                        512 or 256 if you hit GPU memory errors during
+                        prefill.
+  --draft-model DRAFT_MODEL
+                        Speculative drafter path or HF id. Qwen3.5/3.6/3.8 and
+                        Nemotron checkpoints with bundled MTP weights can use
+                        the same path as --model.
+  --draft-kind {dflash,eagle3,mtp}
+                        Drafter family. Supported: 'dflash' (Qwen3.5 DFlash),
+                        'eagle3' (Speculators/SGLang EAGLE-3), 'mtp' (native
+                        Multi-Token Prediction / Assistant model). Default:
+                        auto-detected from the drafter's HF model_type.
+  --draft-block-size DRAFT_BLOCK_SIZE
+                        Override the drafter's configured block size.
+  --enable-thinking     Enable thinking in the chat template. Templates that
+                        use thinking_mode receive thinking_mode='enabled'.
+  --thinking-mode {enabled,disabled,adaptive}
+                        Set the chat-template thinking mode when supported.
+                        Choices: enabled, disabled, adaptive.
+  --reasoning-effort REASONING_EFFORT
+                        Reasoning effort forwarded to the chat template (for
+                        example low, medium, high). Templates that use
+                        reasoning_strength receive the same value, matching
+                        the server's reasoning_effort handling. When omitted,
+                        the template default is left untouched.
+  --thinking-budget THINKING_BUDGET
+                        Maximum number of thinking tokens before forcing the
+                        end-of-thinking token.
+  --thinking-start-token THINKING_START_TOKEN
+                        Token that marks the start of a thinking block
+                        (default: <think>).
+  --thinking-end-token THINKING_END_TOKEN
+                        Token that marks the end of a thinking block (default:
+                        </think>).

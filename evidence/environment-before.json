@@ -1,0 +1,62 @@
+{
+  "captured_at": "2026-11-08T07:05:38.531972+00:00",
+  "commands": {
+    "hardware": {
+      "command": [
+        "system_profiler",
+        "SPHardwareDataType"
+      ],
+      "returncode": 0,
+      "stdout": "Hardware:\n\n    Hardware Overview:\n\n      Model Name: MacBook Air\n      Model Identifier: Mac16,12\n      Model Number: MW123HN/A\n      Chip: Apple M4\n      Total Number of Cores: 10 (4 Performance and 6 Efficiency)\n      Memory: 16 GB\n      System Firmware Version: 18000.161.10\n      OS Loader Version: 18000.161.10\n      Activation Lock Status: Enabled\n",
+      "stderr": "2026-11-08 12:35:38.844 system_profiler[32333:13606927] hw.cpufamily: 0x6f5129ac\n"
+    },
+    "software": {
+      "command": [
+        "sw_vers"
+      ],
+      "returncode": 0,
+      "stdout": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.2\nBuildVersion:\t\t25G83\n",
+      "stderr": ""
+    },
+    "memory": {
+      "command": [
+        "sysctl",
+        "hw.memsize",
+        "hw.ncpu"
+      ],
+      "returncode": 0,
+      "stdout": "hw.memsize: 17179869184\nhw.ncpu: 10\n",
+      "stderr": ""
+    },
+    "battery": {
+      "command": [
+        "pmset",
+        "-g",
+        "batt"
+      ],
+      "returncode": 0,
+      "stdout": "Now drawing from 'Battery Power'\n -InternalBattery-0 (id=22020195)\t29%; discharging; 17:00 remaining present: true\n",
+      "stderr": ""
+    },
+    "thermal": {
+      "command": [
+        "pmset",
+        "-g",
+        "therm"
+      ],
+      "returncode": 0,
+      "stdout": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+      "stderr": ""
+    },
+    "disk": {
+      "command": [
+        "df",
+        "-k",
+        "/Users/zeeshan"
+      ],
+      "returncode": 0,
+      "stdout": "Filesystem   1024-blocks      Used Available Capacity iused    ifree %iused  Mounted on\n/dev/disk3s5   239362496 200735424   6591532    97% 2693795 65915320    4%   /System/Volumes/Data\n",
+      "stderr": ""
+    }
+  }
+}
